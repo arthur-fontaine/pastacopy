@@ -25,7 +25,7 @@ export async function SnippetCard(props: SnippetCardProps) {
       <TypographyMuted className='min-h-[calc(theme(fontSize.sm[1].lineHeight)_*_5)] flex-1 line-clamp-5'>{props.description}</TypographyMuted>
       <footer className="mt-4 flex flex-col gap-2">
         <TypographySmall>
-          <a href={props.authorUrl} className="flex flex-row items-center text-muted-foreground transition-colors hover:text-primary">
+          <a href={props.authorUrl} className="text-muted-foreground transition-colors hover:text-primary">
             {props.author}
           </a>
         </TypographySmall>
