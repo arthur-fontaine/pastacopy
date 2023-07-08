@@ -1,8 +1,19 @@
+import { getSnippets } from "@/api/resolvers/snippets"
+import { SnippetCard } from "@/components/snippet-card";
 import { Input } from "@/components/ui/input"
-import { query, resolved } from "@/lib/api"
+import { query, resolve } from "@/lib/api"
 
 export default async function IndexPage() {
-  const data = await resolved(() => query.hello)
+  const data = await resolve(({ query }) => {
+    return query.snippets().map((snippet) => ({
+      id: snippet.id,
+      title: snippet.title,
+      description: snippet.description,
+      language: snippet.language,
+      author: snippet.createdBy.name,
+      authorUrl: `https://github.com/${snippet.createdBy.githubId}`
+    }))
+  });
 
   return (
     <section className="container grid items-center gap-6 pb-8 pt-6 md:py-10">
@@ -16,12 +27,21 @@ export default async function IndexPage() {
           Copy and use them instantly, hassle-free.
         </p>
       </div>
-      <div className="mt-16 flex gap-4">
+      <div className="mt-16 flex flex-col gap-4">
         <Input
           placeholder="Search for a snippet..."
           className="text-md h-12 max-w-2xl shadow-3xl shadow-input"
         />
-        {data}
+        <div className="flex gap-2">
+          {
+            data.map((snippet) => (
+              <SnippetCard
+                key={snippet.id}
+                {...snippet}
+              />
+            ))
+          }
+        </div>
       </div>
     </section>
   )

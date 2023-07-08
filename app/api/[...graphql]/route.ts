@@ -1,11 +1,9 @@
-import { schema } from './schema'
 import { createYoga } from 'graphql-yoga'
 import { useGraphQLSSE } from '@graphql-yoga/plugin-graphql-sse'
-
-export const runtime = 'edge'
+import { gqlSchema } from '@/api'
 
 const { handleRequest } = createYoga({
-  schema,
+  schema: gqlSchema,
   graphqlEndpoint: '/api/graphql',
   fetchAPI: { Response },
   graphiql: {

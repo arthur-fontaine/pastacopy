@@ -1,9 +1,14 @@
 import { GarphSchema, InferResolvers, buildSchema } from "garph"
-
-const g = new GarphSchema()
+import { snippetType } from "./types/snippet"
+import { getSnippets } from "./resolvers/snippets"
+import { g } from "./g"
 
 export const queryType = g.type('Query', {
-  hello: g.string()
+  snippets: g.ref(() => snippetType).list()
+    .args({
+      ids: g.string().list().optional(),
+      search: g.string().optional(),
+    })
 })
 
 export const mutationType = g.type('Mutation', {
@@ -14,7 +19,7 @@ export const subscriptionType = g.type('Subscription', {
 
 const resolvers: InferResolvers<{ Query: typeof queryType, Mutation: typeof mutationType, Subscription: typeof subscriptionType }, {}> = {
   Query: {
-    hello: () => 'Hello World!'
+    snippets: getSnippets,
   },
   Mutation: {
   },
@@ -22,4 +27,6 @@ const resolvers: InferResolvers<{ Query: typeof queryType, Mutation: typeof muta
   },
 }
 
-export const schema = buildSchema({ g, resolvers })
+const schema = buildSchema({ g, resolvers })
+
+export { schema as gqlSchema }
