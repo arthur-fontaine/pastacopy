@@ -5,7 +5,7 @@ import { cn } from "@/lib/utils"
 import { Check, Copy } from "lucide-react";
 import { useTheme } from "next-themes"
 import React, { useEffect, useState } from "react"
-import { Button } from "./ui/button";
+import { Button } from "../../../components/ui/button";
 
 export interface CodeBlockProps
   extends React.ButtonHTMLAttributes<HTMLButtonElement> {

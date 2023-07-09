@@ -1,4 +1,4 @@
-import { CodeBlock } from "@/components/code-block";
+import { CodeBlock } from "./code-block-component";
 import { TypographyH1, TypographyH2, TypographyH3, TypographyP } from "@/components/typography";
 import { resolve } from "@/lib/api";
 

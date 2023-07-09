@@ -1,10 +1,9 @@
-import { getSnippets } from "@/api/resolvers/snippets"
-import { SnippetCard } from "@/components/snippet-card";
-import { Input } from "@/components/ui/input"
-import { query, resolve } from "@/lib/api"
+import { resolve } from "@/lib/api"
+import { SnippetsList } from "./snippets-list";
+import { SnippetCard } from "./snippet-card-component";
 
 export default async function IndexPage() {
-  const data = await resolve(({ query }) => {
+  const snippets = await resolve(({ query }) => {
     return query.snippets().map((snippet) => ({
       id: snippet.id,
       title: snippet.title,
@@ -28,20 +27,15 @@ export default async function IndexPage() {
         </p>
       </div>
       <div className="mt-16 flex flex-col gap-4">
-        <Input
-          placeholder="Search for a snippet..."
-          className="text-md h-12 max-w-2xl shadow-3xl shadow-input"
-        />
-        <div className="flex gap-2">
-          {
-            data.map((snippet) => (
-              <SnippetCard
-                key={snippet.id}
-                {...snippet}
-              />
-            ))
-          }
-        </div>
+        <SnippetsList snippets={
+          snippets.map((snippet) => ({
+            component: <SnippetCard
+              key={snippet.id}
+              {...snippet}
+            />,
+            props: snippet
+          }))
+        } />
       </div>
     </section>
   )

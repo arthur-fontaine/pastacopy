@@ -1,7 +1,7 @@
-import fsp from 'fs/promises'
 import { Card } from "@/components/ui/card"
-import { TypographyH4, TypographyMuted, TypographySmall } from "./typography"
+import { TypographyH4, TypographyMuted, TypographySmall } from "@/components/typography"
 import { Badge } from '@/components/ui/badge'
+import { getLanguageColor } from '@/lib/utils'
 import Link from 'next/link'
 
 interface SnippetCardProps {
@@ -14,7 +14,7 @@ interface SnippetCardProps {
 }
 
 export async function SnippetCard(props: SnippetCardProps) {
-  const languageColor = await getLanguageColor(props.language)
+  const languageColor = getLanguageColor(props.language) ?? '#ccc'
 
   return <Link href={`/snippets/${props.id}`} className='contents'>
     <Card className='flex max-w-[30%] flex-1 flex-col p-4 transition hover:scale-105 hover:bg-card-hover'>
@@ -32,15 +32,4 @@ export async function SnippetCard(props: SnippetCardProps) {
       </footer>
     </Card>
   </Link>
-}
-
-async function getLanguageColor(language: string) {
-  const data = await fsp.readFile('resources/language-colors.json', 'utf-8')
-  const languages = JSON.parse(data)
-
-  return (
-    Object.entries(languages).find(([key]) => key.toLowerCase() === language.toLowerCase())?.[1] as {
-      color: string
-    } | undefined
-  )?.color ?? '#ccc'
 }
