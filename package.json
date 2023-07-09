@@ -12,7 +12,8 @@
     "typecheck": "tsc --noEmit",
     "format:write": "prettier --write \"**/*.{ts,tsx,mdx}\" --cache",
     "format:check": "prettier --check \"**/*.{ts,tsx,mdx}\" --cache",
-    "generate-snippet-json-schema": "tsx ./scripts/generate-snippet-json-schema.ts"
+    "generate-snippet-json-schema": "tsx ./scripts/generate-snippet-json-schema.ts",
+    "generate-submit-snippet-issue-template": "tsx ./scripts/generate-submit-snippet-issue-template.ts"
   },
   "dependencies": {
     "@garph/gqty": "^0.4.5",
@@ -21,8 +22,10 @@
     "@radix-ui/react-slot": "^1.0.2",
     "@radix-ui/react-tooltip": "^1.0.6",
     "@tailwindcss/line-clamp": "^0.4.4",
+    "@types/ejs": "^3.1.2",
     "class-variance-authority": "^0.4.0",
     "clsx": "^1.2.1",
+    "ejs": "^3.1.9",
     "garph": "^0.5.7",
     "graphql-sse": "^2.2.0",
     "graphql-yoga": "^4.0.3",

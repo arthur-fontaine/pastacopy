@@ -1,0 +1,63 @@
+name: Submit a new snippet
+description: Submit a new snippet to the repository
+labels: ["new snippet"]
+body:
+  - type: markdown
+    attributes:
+      value: |
+        Thank you for submitting a new snippet to the repository! Please fill out the form below, and we'll get back to you as soon as possible.
+  - type: input
+    id: snippet-id
+    attributes:
+      label: Snippet ID
+      description: The ID of the snippet (must be unique and only contain lowercase letters, numbers, and dashes)
+      placeholder: "my-awesome-snippet"
+    validations:
+      required: true
+  - type: input
+    id: snippet-name
+    attributes:
+      label: Snippet name
+      description: The name of the snippet
+      placeholder: "My awesome snippet"
+    validations:
+      required: true
+  - type: textarea
+    id: snippet-description
+    attributes:
+      label: Snippet description
+      description: A short description of the snippet
+      placeholder: "This snippet does something awesome"
+    validations:
+      required: true
+  - type: textarea
+    id: snippet-code
+    attributes:
+      label: Snippet code
+      description: The code for the snippet
+      placeholder: |
+        ```js
+        console.log("Hello world!");
+        ```
+    validations:
+      required: true
+  # - type: textarea
+  #   id: snippet-usage
+  #   attributes:
+  #     label: Snippet usage
+  #     description: How to use the snippet
+  #     placeholder: |
+  #       ```js
+  #       // How to use the snippet
+  #       ```
+  #   validations:
+  #     required: true
+  - type: dropdown
+    id: snippet-language
+    attributes:
+      label: Snippet language
+      description: The language of the snippet
+      options:
+        - <%= languages.join("\n        - ") %>
+    validations:
+      required: true
