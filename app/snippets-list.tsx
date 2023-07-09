@@ -6,9 +6,16 @@ import { Fragment, useState, useMemo, useEffect } from "react";
 import { create, insertMultiple, search } from '@orama/orama';
 import { getLanguageColor } from "@/lib/utils";
 import { Card } from "@/components/ui/card";
-import { TypographyH3, TypographyH4, TypographyMuted } from "@/components/typography";
+import { TypographyH4, TypographyInlineCode, TypographyMuted, TypographyP, TypographyUl } from "@/components/typography";
 import { Button } from "@/components/ui/button";
 import Link from "next/link";
+import {
+  Tooltip,
+  TooltipContent,
+  TooltipProvider,
+  TooltipTrigger,
+} from "@/components/ui/tooltip"
+import { HelpCircle } from "lucide-react";
 
 type SnippetCardProps = Parameters<typeof SnippetCard>[0]
 
@@ -80,7 +87,26 @@ export function SnippetsList({ snippets }: { snippets: { component: JSX.Element,
 
   return (
     <>
-      <div>
+      <div className="relative max-w-2xl">
+        <div className="absolute right-0 top-0 flex h-full items-center pr-3">
+          <TooltipProvider>
+            <Tooltip delayDuration={0}>
+              <TooltipTrigger>
+                <HelpCircle className="h-5 w-5 text-muted-foreground" />
+              </TooltipTrigger>
+              <TooltipContent side="bottom" className="max-w-sm p-4">
+                <TypographyP className="font-bold leading-none">
+                  Tips:
+                </TypographyP>
+                <TypographyUl className="my-0">
+                  <li>
+                    Use <TypographyInlineCode className="font-medium">language:languageName</TypographyInlineCode> to filter by language.
+                  </li>
+                </TypographyUl>
+              </TooltipContent>
+            </Tooltip>
+          </TooltipProvider>
+        </div>
         <div className="text-md pointer-events-none absolute h-12 px-3 py-2 leading-8">
           {parsedSearchQuery.map(({ type, value }) => {
             if (type === 'language') {
@@ -115,7 +141,7 @@ export function SnippetsList({ snippets }: { snippets: { component: JSX.Element,
         </div>
         <Input
           placeholder="Search for a snippet..."
-          className="text-md h-12 max-w-2xl text-transparent caret-foreground shadow-3xl shadow-input"
+          className="text-md h-12 text-transparent caret-foreground shadow-3xl shadow-input"
           value={rawSearchQuery}
           onChange={(e) => setRawSearchQuery(e.target.value)}
         />
