@@ -5,6 +5,10 @@ import { SnippetCard } from "./snippet-card-component";
 import { Fragment, useState, useMemo, useEffect } from "react";
 import { create, insertMultiple, search } from '@orama/orama';
 import { getLanguageColor } from "@/lib/utils";
+import { Card } from "@/components/ui/card";
+import { TypographyH3, TypographyH4, TypographyMuted } from "@/components/typography";
+import { Button } from "@/components/ui/button";
+import Link from "next/link";
 
 type SnippetCardProps = Parameters<typeof SnippetCard>[0]
 
@@ -126,13 +130,17 @@ export function SnippetsList({ snippets }: { snippets: { component: JSX.Element,
                 </Fragment>
               ))
             )
-            : (
-              shownSnippetIds.map((snippetId) => (
-                <Fragment key={snippetId}>
-                  {snippets.find(({ props }) => props.id === snippetId)?.component}
-                </Fragment>
-              ))
-            )
+            : shownSnippetIds.length === 0
+              ? (
+                <CreateSnippetCard />
+              )
+              : (
+                shownSnippetIds.map((snippetId) => (
+                  <Fragment key={snippetId}>
+                    {snippets.find(({ props }) => props.id === snippetId)?.component}
+                  </Fragment>
+                ))
+              )
         }
       </div>
     </>
@@ -169,4 +177,22 @@ function parseSearchQuery(searchQuery: string) {
   }
 
   return tokens
+}
+
+function CreateSnippetCard() {
+  return (
+    <Card className='flex max-w-[30%] flex-1 flex-col p-4'>
+      <TypographyH4 className='mb-2'>
+        No snippets found
+      </TypographyH4>
+      <TypographyMuted className='min-h-[calc(theme(fontSize.sm[1].lineHeight)_*_5)] flex-1 line-clamp-5'>
+        Try searching for something else or submit a new snippet.
+      </TypographyMuted>
+      <Link href='/submit' className="contents">
+        <Button variant="link" className="mt-4 h-fit w-fit p-0 leading-none">
+          Create snippet
+        </Button>
+      </Link>
+    </Card>
+  )
 }
